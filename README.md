@@ -29,21 +29,16 @@ to zooming.
 ### Fractional Values
 
 Some values only exist as integers (they are [discrete](https://en.wikipedia.org/wiki/Discrete_mathematics)). For instance, frames in a video.
-If a video has 2 frames, then there are only two possible values that the selected frame can be: frame 0, or frame 1.
+If a video has 2 frames, then there are only two possible values that an active frame can be: frame 0, or frame 1. It's simply not
+possible to be on, say, frame 1.5, because each frame is a particular image.
 
-However, when you represent a value like frames _visually_, you typically give each frame a width. This permits
-a place onscreen, some pixel, that can represent a value _between_ 0 and 1.
+However, when you represent a value like frames _visually_, you typically display them as having a width. This permits
+a place onscreen - some pixel – that can represent a value _between_ 0 and 1.
 
 In this way, a visualization of a discrete value can be considered continuous.
 
-In this library, these values are called _fractional values_. Fractional values are useful when it comes
-to visualizations, but do note that you should _never_ mistake a fractional value for a real value.
-
-Using a fractional value outside of the timeline will open you up to errors. This is because you are handing
-off the responsibility of rounding the value to the consumer of that value, and this can cause considerable
-problems when visualizing a timeline.
-
-> Note: a visualization of frames is never actually continuous.
+Because it is important to know whether you are working with the discrete version of a value, or the continuous one,
+Timeline Utils gives a name to the continuous versions: _fractional values_.
 
 ### Dead Space
 
@@ -52,19 +47,32 @@ a continuous one.
 
 This is not quite true. The reason is that any visualization is drawn to a screen, which is itself a discrete series of pixels.
 
-A visualization, then, is a set of two discrete spaces that are laid on top of one another, and that do not necessarily line up
-beyond the initial frame/pixel.
+A visualization, then, is a set of two discrete spaces that are laid on top of one another. These two discrete spaces do not necessarily
+line up beyond the first frame/pixel.
 
-An emergent phenomenon from a system like this is _dead space_. Dead space arises from the constraint that the visual timeline
-should _never_ cut off of a frame. Every frame should be visualized.
+What this means is that there is no guarantee that the last frame in a video will line up with a pixel. In fact, most of the time
+it will not. A constraint of Timeline Utils is that every frame _must_ be rendered onscreen, always. It never cuts off a title
+short.
 
-## API Concepts
+As a consequence, most of the time only part of the last pixel of a timeline represents actual frames in the video. The rest of that
+last pixel is still rendered, but represents _dead space_: a value that is actually outside of the frame.
+
+The size of the dead space, represented by the variable `d`, always satisfies the inequality `0 <= d < 1`.
+
+It may seem silly to focus so much on a pixel value. But given that a single pixel can, at times, represent hundreds of frames,
+the dead space can add up to being several seconds of time. It is important to understand and be conscious of the impact of
+dead space on your visualization.
+
+## API Arguments
+
+Timeline Utils is a collection of functions that can be useful for working with visualizations. Many of the functions
+accept one or more of the same arguments. These arguments are described below:
 
 ### `timelineConfig`
 
-The timeline configuration are data points about the timeline. They are considered "config" as they are
+The timeline configuration are data points about the timeline. They are considered "config" due to the fact that they are
 unrelated to the current position of the viewport. In other words, as the user zooms and pans the
-timeline, these values will not change.
+timeline, these values remain constant.
 
 | Key                | Default Value | Description                                                   |
 | ------------------ | ------------- | ------------------------------------------------------------- |

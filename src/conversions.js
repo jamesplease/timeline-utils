@@ -35,12 +35,12 @@ export function nearestFrameToPixel({
     timelineDescription,
     normalizedZoom,
   });
-  const fullTimelineWidth = getTimelineWidth({
+  const timelineWidth = getTimelineWidth({
     timelineDescription,
     fractional: true,
   });
 
-  const pixelToUse = clamp(0, pixel, fullTimelineWidth);
+  const pixelToUse = clamp(0, pixel, timelineWidth);
 
   const fractionalFrame = pixelToUse / framePixelWidth;
 
