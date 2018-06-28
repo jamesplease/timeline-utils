@@ -75,6 +75,12 @@ It may seem silly to focus so much on a pixel value. But given that a single pix
 the dead space can add up to being several seconds of time. It is important to understand and be conscious of the impact of
 dead space on your visualization.
 
+### Frame Bin
+
+A frame bin is the space that an individual frame takes up on a timeline. At low zoom levels, bins have 0 width, as many
+frames fit into a single pixel. Once you pass the point where a single frame is rendered at 1px, then individual frames
+have a non-zero bin size.
+
 ## API Arguments
 
 Timeline Utils is a collection of functions that can be useful for working with visualizations. Many of the functions

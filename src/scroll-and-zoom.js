@@ -1,8 +1,8 @@
 import clamp from './clamp';
 import linearScale from './linear-scale';
 import defaultMinFramePixelWidth from './default-min-frame-pixel-width';
-import { getFramePixelWidthAtMinZoom } from './conversions';
-import { getViewportFrameWidth } from './viewport';
+import { getFramePixelWidthAtMinZoom, pixelToFrame } from './conversions';
+import { getTimelineWidth } from './timeline';
 
 export function getMaxZoomMagnitude({ timelineConfig } = {}) {
   const { minFramePixelWidth = defaultMinFramePixelWidth } = timelineConfig;
@@ -38,22 +38,28 @@ export function getZoomMagnitude({ timelineConfig, normalizedZoom } = {}) {
   return clamp(1, zoomMagnitude, maxMagnitude);
 }
 
-export function getFocusableEndpoints({ timelineDescription }) {
-  const { totalFrameCount } = timelineDescription;
+// Heads up! The focusable endpoints are _always_ fractional, because the viewport does not ever
+// necessarily line up with a frame.
+export function getFocusableEndpoints({ timelineConfig, normalizedZoom }) {
+  const { viewportWidth } = timelineConfig;
 
-  const viewportFrameWidth = getViewportFrameWidth({
-    timelineDescription,
-    // We need to use a smaller viewport here so that our dead frames include partially-visible
-    // frames.
-    roundUp: false,
-  });
+  const timelineWidth = getTimelineWidth({ timelineConfig, normalizedZoom });
 
-  const deadFrameSize = viewportFrameWidth / 2;
+  const startPixel = viewportWidth;
+  const endPixel = timelineWidth - viewportWidth;
 
   return {
-    start: Math.floor(deadFrameSize),
-    // We subtract 1 here because frames are zero-indexed, so
-    // lastFrame = totalFrameCount - 1
-    end: Math.ceil(totalFrameCount - 1 - deadFrameSize),
+    startFractionalFrame: pixelToFrame({
+      timelineConfig,
+      normalizedZoom,
+      frame: startPixel,
+      fractional: true,
+    }),
+    endFractionalFrame: pixelToFrame({
+      timelineConfig,
+      normalizedZoom,
+      frame: endPixel,
+      fractional: true,
+    }),
   };
 }

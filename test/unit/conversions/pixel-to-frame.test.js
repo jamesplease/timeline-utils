@@ -1,8 +1,9 @@
-import { frameAtPixel } from '../../../src/conversions';
+import { pixelToFrame } from '../../../src/conversions';
 
-describe('frameAtPixel', () => {
+// TODO: fractional tests
+describe('pixelToFrame', () => {
   it('is a function', () => {
-    expect(typeof frameAtPixel).toBe('function');
+    expect(typeof pixelToFrame).toBe('function');
   });
 
   describe('normalizedZoom: 0', () => {
@@ -12,13 +13,13 @@ describe('frameAtPixel', () => {
         totalFrameCount: 514127,
         minFramePixelWidth: 19,
       };
-  
-      const result = frameAtPixel({
+
+      const result = pixelToFrame({
         timelineConfig,
         normalizedZoom: 0,
-        pixel: 0
+        pixel: 0,
       });
-  
+
       expect(result).toEqual(0);
     });
 
@@ -28,29 +29,29 @@ describe('frameAtPixel', () => {
         totalFrameCount: 514127,
         minFramePixelWidth: 19,
       };
-  
-      const middlePixel = frameAtPixel({
+
+      const middlePixel = pixelToFrame({
         timelineConfig,
         normalizedZoom: 0,
-        pixel: 498.5
+        pixel: 498.5,
       });
-  
+
       expect(middlePixel).toEqual(257063);
     });
-  
+
     it('returns the right value at the last pixel', () => {
       const timelineConfig = {
         viewportWidth: 997,
         totalFrameCount: 514127,
         minFramePixelWidth: 19,
       };
-  
-      const result = frameAtPixel({
+
+      const result = pixelToFrame({
         timelineConfig,
         normalizedZoom: 0,
-        pixel: 997
+        pixel: 997,
       });
-  
+
       expect(result).toEqual(514127);
     });
   });
@@ -62,13 +63,13 @@ describe('frameAtPixel', () => {
         totalFrameCount: 514127,
         minFramePixelWidth: 19,
       };
-  
-      const result = frameAtPixel({
+
+      const result = pixelToFrame({
         timelineConfig,
         normalizedZoom: 1,
-        pixel: 0
+        pixel: 0,
       });
-  
+
       expect(result).toEqual(0);
     });
 
@@ -79,13 +80,13 @@ describe('frameAtPixel', () => {
         totalFrameCount: 514127,
         minFramePixelWidth: 19,
       };
-  
-      const result = frameAtPixel({
+
+      const result = pixelToFrame({
         timelineConfig,
         normalizedZoom: 1,
-        pixel: 4884206.5
+        pixel: 4884206.5,
       });
-  
+
       expect(result).toEqual(257063);
     });
 
@@ -96,13 +97,13 @@ describe('frameAtPixel', () => {
         totalFrameCount: 514127,
         minFramePixelWidth: 19,
       };
-  
-      const result = frameAtPixel({
+
+      const result = pixelToFrame({
         timelineConfig,
         normalizedZoom: 1,
-        pixel: 9768413
+        pixel: 9768413,
       });
-  
+
       expect(result).toEqual(514127);
     });
   });

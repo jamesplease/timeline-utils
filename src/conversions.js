@@ -14,6 +14,7 @@ export function getFramePixelWidth({ timelineConfig, normalizedZoom } = {}) {
     timelineConfig,
     normalizedZoom,
   });
+
   const minFramePixelWidth = getFramePixelWidthAtMinZoom({
     timelineConfig,
   });
@@ -63,7 +64,12 @@ export function nearestFrameToPixel({ timelineConfig, normalizedZoom, pixel }) {
   return clamp(0, Math.round(fractionalFrame), timelineConfig.totalFrameCount);
 }
 
-export function frameAtPixel({ timelineConfig, normalizedZoom, pixel }) {
+export function pixelToFrame({
+  timelineConfig,
+  normalizedZoom,
+  pixel,
+  fractional = false,
+}) {
   const framePixelWidth = getFramePixelWidth({
     timelineConfig,
     normalizedZoom,
@@ -84,5 +90,7 @@ export function frameAtPixel({ timelineConfig, normalizedZoom, pixel }) {
     timelineConfig.totalFrameCount
   );
 
-  return Math.floor(clampedFractionalFrame);
+  return fractional
+    ? clampedFractionalFrame
+    : Math.floor(clampedFractionalFrame);
 }
