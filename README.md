@@ -99,3 +99,15 @@ A value from 0 to 1 that represents how far the timeline is zoomed. 0 means no z
 ### `focusedFractionalFrame`
 
 The currently-focused fractional frame.
+
+## API Categories
+
+Timeline Utilities are organized in categories.
+
+| Category Name   | Functions related to...                                                       |
+| --------------- | ----------------------------------------------------------------------------- |
+| Conversions     | moving between pixels and frames                                              |
+| Viewport        | the piece of the timeline that is currently onscreen                          |
+| Timeline        | the _full_ timeline; all of the frames that are rendered                      |
+| Scroll and Zoom | scrolling and zooming the timeline                                            |
+| Zoom Bar        | an interface element that allows a user to use their mouse to zoom and scroll |
