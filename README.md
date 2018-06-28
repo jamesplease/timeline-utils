@@ -38,14 +38,26 @@ a place onscreen - some pixel – that can represent a value _between_ 0 and 1.
 In this way, a visualization of a discrete value can be considered continuous.
 
 Because it is important to know whether you are working with the discrete version of a value, or the continuous one,
-Timeline Utils gives a name to the continuous versions: _fractional values_.
+Timeline Utils provides a name for the continuous versions of things: _fractional values_.
+
+There are two important kinds of fractional values in Timeline Utils:
+
+- fractional frames
+- fractional pixels
+
+The primary use of fractional values is to ensure accuracy when changing between frames and pixels. For instance, "frame 31"
+is typically located at a fractional pixel, and "pixel 300" is typically pointing to a fractional frame.
+
+Outside of unit conversions, you **should not** use fractional values. If you do, you open your timeline up to off-to-one
+errors. Timeline Utils provides methods that round fractional values for you, and those are what you should use when
+rendering pixels, or seeking the video to a frame.
 
 ### Dead Space
 
-In the above section, we described how a visualization of a discrete value like frames can turn it from a discrete value to
+In the above section, it was eplained how a visualization of a discrete value like frames can transform it from a discrete space to
 a continuous one.
 
-This is not quite true. The reason is that any visualization is drawn to a screen, which is itself a discrete series of pixels.
+This is not quite true. The reason is that these visualizations are drawn to a screen, which is itself a discrete series of pixels.
 
 A visualization, then, is a set of two discrete spaces that are laid on top of one another. These two discrete spaces do not necessarily
 line up beyond the first frame/pixel.

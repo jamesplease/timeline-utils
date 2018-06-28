@@ -9,16 +9,13 @@ export function getFramePixelWidthAtMinZoom({ timelineConfig } = {}) {
   return viewportWidth / totalFrameCount;
 }
 
-export function getFramePixelWidth({
-  timelineDescription,
-  normalizedZoom,
-} = {}) {
+export function getFramePixelWidth({ timelineConfig, normalizedZoom } = {}) {
   const zoomMagnitude = getZoomMagnitude({
-    timelineDescription,
+    timelineConfig,
     normalizedZoom,
   });
   const minFramePixelWidth = getFramePixelWidthAtMinZoom({
-    timelineDescription,
+    timelineConfig,
   });
 
   return zoomMagnitude * minFramePixelWidth;
@@ -26,17 +23,13 @@ export function getFramePixelWidth({
 
 // Returns the nearest frame at the pixel. Always returns an entire
 // pixel value. This can be useful for snapping interfaces.
-export function nearestFrameToPixel({
-  timelineDescription,
-  normalizedZoom,
-  pixel,
-}) {
+export function nearestFrameToPixel({ timelineConfig, normalizedZoom, pixel }) {
   const framePixelWidth = getFramePixelWidth({
-    timelineDescription,
+    timelineConfig,
     normalizedZoom,
   });
   const timelineWidth = getTimelineWidth({
-    timelineDescription,
+    timelineConfig,
     fractional: true,
   });
 

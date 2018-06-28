@@ -5,25 +5,49 @@ describe('getFramePixelWidth', () => {
     expect(typeof getFramePixelWidth).toBe('function');
   });
 
-  // it('returns the expected value when frame count is smaller than viewport width', () => {
-  //   const timelineConfig = {
-  //     viewportWidth: 1000,
-  //     totalFrameCount: 500,
-  //     minFramePixelWidth: 20,
-  //   };
+  it('returns the right value at normalizedZoom: 0', () => {
+    const timelineConfig = {
+      viewportWidth: 1000,
+      totalFrameCount: 500,
+      minFramePixelWidth: 20,
+    };
 
-  //   const result = getFramePixelWidth({ timelineConfig });
-  //   expect(result).toEqual(2);
-  // });
+    const result = getFramePixelWidth({
+      timelineConfig,
+      normalizedZoom: 0,
+    });
 
-  // it('returns the expected value when frame count is larger than viewport width', () => {
-  //   const timelineConfig = {
-  //     viewportWidth: 1000,
-  //     totalFrameCount: 5000,
-  //     minFramePixelWidth: 20,
-  //   };
+    expect(result).toEqual(2);
+  });
 
-  //   const result = getFramePixelWidth({ timelineConfig });
-  //   expect(result).toEqual(0.2);
-  // });
+  it('returns the right value at normalizedZoom: 1', () => {
+    const timelineConfig = {
+      viewportWidth: 1000,
+      totalFrameCount: 500,
+      minFramePixelWidth: 20,
+    };
+
+    const result = getFramePixelWidth({
+      timelineConfig,
+      normalizedZoom: 1,
+    });
+
+    expect(result).toEqual(20);
+  });
+
+  it('returns the right value at normalizedZoom: 0.5', () => {
+    const timelineConfig = {
+      viewportWidth: 1000,
+      totalFrameCount: 500,
+      minFramePixelWidth: 20,
+    };
+
+    // zoomMagnitude = 1.8181818181...
+    const result = getFramePixelWidth({
+      timelineConfig,
+      normalizedZoom: 0.5,
+    });
+
+    expect(result).toBeCloseTo(3.63636, 3);
+  });
 });
