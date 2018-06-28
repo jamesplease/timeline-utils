@@ -1,0 +1,12 @@
+{
+  "extends": ["../.eslintrc"],
+  "env": {
+    "jest": true,
+    "node": true
+  },
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  }
+}
