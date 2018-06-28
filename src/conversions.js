@@ -71,6 +71,7 @@ export function frameAtPixel({ timelineConfig, normalizedZoom, pixel }) {
 
   const fullTimelineWidth = getTimelineWidth({
     timelineConfig,
+    normalizedZoom,
     fractional: true,
   });
 

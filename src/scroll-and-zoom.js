@@ -2,6 +2,7 @@ import clamp from './clamp';
 import linearScale from './linear-scale';
 import defaultMinFramePixelWidth from './default-min-frame-pixel-width';
 import { getFramePixelWidthAtMinZoom } from './conversions';
+import { getViewportFrameWidth } from './viewport';
 
 export function getMaxZoomMagnitude({ timelineConfig } = {}) {
   const { minFramePixelWidth = defaultMinFramePixelWidth } = timelineConfig;
@@ -35,4 +36,24 @@ export function getZoomMagnitude({ timelineConfig, normalizedZoom } = {}) {
   // higher than the max! Note, however, that floating point issues can cause the actual
   // magnitude between 1 and max to be ever-so-slightly off.
   return clamp(1, zoomMagnitude, maxMagnitude);
+}
+
+export function getFocusableEndpoints({ timelineDescription }) {
+  const { totalFrameCount } = timelineDescription;
+
+  const viewportFrameWidth = getViewportFrameWidth({
+    timelineDescription,
+    // We need to use a smaller viewport here so that our dead frames include partially-visible
+    // frames.
+    roundUp: false,
+  });
+
+  const deadFrameSize = viewportFrameWidth / 2;
+
+  return {
+    start: Math.floor(deadFrameSize),
+    // We subtract 1 here because frames are zero-indexed, so
+    // lastFrame = totalFrameCount - 1
+    end: Math.ceil(totalFrameCount - 1 - deadFrameSize),
+  };
 }
