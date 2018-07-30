@@ -3,12 +3,12 @@ import { getZoomMagnitude } from './scroll-and-zoom';
 // This returns the width of the timeline, in pixels. As you zoom in, the width
 // increases.
 export function getTimelineWidth({
-  timelineConfig,
+  timelineConstants,
   normalizedZoom,
   fractional = false,
 } = {}) {
-  const { viewportWidth } = timelineConfig;
-  const zoomMagnitude = getZoomMagnitude({ timelineConfig, normalizedZoom });
+  const { viewportWidth } = timelineConstants;
+  const zoomMagnitude = getZoomMagnitude({ timelineConstants, normalizedZoom });
 
   const fractionalWidth = zoomMagnitude * viewportWidth;
 
@@ -23,7 +23,7 @@ export function getTimelineWidth({
 // on the length of the content and width of the viewport, which is why dead space is important
 // to be aware of.
 // export function getDeadSpaceInFractionalFrames({
-//   timelineConfig,
+//   timelineConstants,
 //   normalizedZoom,
 // }) {
 
@@ -33,11 +33,11 @@ export function getTimelineWidth({
 // // The reason for this is that the timeline will add at most 1 extra pixel to display all of the
 // // frames in the video.
 export function getTimelineDeadSpaceInPixels({
-  timelineConfig,
+  timelineConstants,
   normalizedZoom,
 }) {
   const fractionalTimelineWidth = getTimelineWidth({
-    timelineConfig,
+    timelineConstants,
     normalizedZoom,
     fractional: true,
   });

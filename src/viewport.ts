@@ -5,13 +5,16 @@ import { frameToPixel, pixelToFrame } from './conversions';
 
 // These utilities are all about the viewport. The viewport is the
 // visible section of the timeline. The `viewportWidth` in
-// `timelineConfig` represents the physical size of the viewport.
+// `timelineConstants` represents the physical size of the viewport.
 
 // This is the furthest to the left that the viewport can scroll.
-export function getMaxViewportOffset({ timelineConfig, normalizedZoom } = {}) {
-  const { viewportWidth } = timelineConfig;
+export function getMaxViewportOffset({
+  timelineConstants,
+  normalizedZoom,
+} = {}) {
+  const { viewportWidth } = timelineConstants;
   const fullTimelineWidth = getTimelineWidth({
-    timelineConfig,
+    timelineConstants,
     normalizedZoom,
   });
 
@@ -19,12 +22,12 @@ export function getMaxViewportOffset({ timelineConfig, normalizedZoom } = {}) {
 }
 
 export function clampViewportOffset({
-  timelineConfig,
+  timelineConstants,
   normalizedZoom,
   viewportOffset,
 } = {}) {
   const maxViewportOffset = getMaxViewportOffset({
-    timelineConfig,
+    timelineConstants,
     normalizedZoom,
   });
 
@@ -32,14 +35,14 @@ export function clampViewportOffset({
 }
 
 export function getViewportOffset({
-  timelineConfig,
+  timelineConstants,
   normalizedZoom,
   focusedFractionalFrame,
 } = {}) {
-  const { viewportWidth } = timelineConfig;
+  const { viewportWidth } = timelineConstants;
 
   const framePixelOffset = frameToPixel({
-    timelineConfig,
+    timelineConstants,
     normalizedZoom,
     frame: focusedFractionalFrame,
     // We perform the rounding here. That way, the focused frame is as close as possible
@@ -61,7 +64,7 @@ export function getViewportOffset({
   // browser. This helps to ensure that any local state that mirrors the viewport does not disagree with
   // what's in the DOM.
   return clampViewportOffset({
-    timelineConfig,
+    timelineConstants,
     normalizedZoom,
     viewportOffset: possibleViewportOffset,
   });
@@ -69,15 +72,15 @@ export function getViewportOffset({
 
 // The frame endpoints refer to which frame bin the first and last pixel of the viewport fall into.
 export function getViewportFrameEndpoints({
-  timelineConfig,
+  timelineConstants,
   normalizedZoom,
   focusedFractionalFrame,
   fractional,
 }) {
-  const { viewportWidth } = timelineConfig;
+  const { viewportWidth } = timelineConstants;
 
   const viewportOffset = getViewportOffset({
-    timelineConfig,
+    timelineConstants,
     normalizedZoom,
     focusedFractionalFrame,
   });
@@ -87,14 +90,14 @@ export function getViewportFrameEndpoints({
   const endPixel = startPixel + viewportWidth;
 
   const startFrame = pixelToFrame({
-    timelineConfig,
+    timelineConstants,
     normalizedZoom,
     pixel: startPixel,
     fractional,
   });
 
   const endFrame = pixelToFrame({
-    timelineConfig,
+    timelineConstants,
     normalizedZoom,
     pixel: endPixel,
     fractional,
@@ -108,32 +111,32 @@ export function getViewportFrameEndpoints({
 
 // Note: non-fractional values round up.
 export function getViewportFrameWidth({
-  timelineConfig,
+  timelineConstants,
   normalizedZoom,
   fractional,
 }) {
   const fractionalSize = pixelToFrame({
-    timelineConfig,
+    timelineConstants,
     normalizedZoom,
-    pixel: timelineConfig.viewportWidth,
+    pixel: timelineConstants.viewportWidth,
   });
 
   return fractional ? fractionalSize : Math.ceil(fractional);
 }
 
 export function getViewportOffsetMeasure({
-  timelineConfig,
+  timelineConstants,
   focusedFractionalFrame,
   normalizedZoom,
 } = {}) {
   const viewportOffset = getViewportOffset({
-    timelineConfig,
+    timelineConstants,
     normalizedZoom,
     focusedFractionalFrame,
   });
 
   const maxViewportOffset = getMaxViewportOffset({
-    timelineConfig,
+    timelineConstants,
     normalizedZoom,
   });
 

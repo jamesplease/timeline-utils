@@ -4,7 +4,7 @@ import { getViewportOffsetMeasure } from './viewport';
 
 // This allows you to change the zoom measure based on the
 export function getNormalizedZoomFromMouseMoveDelta({
-  timelineConfig,
+  timelineConstants,
   normalizedZoom,
   mouseMoveDelta,
   // Optional. Pass this in if the zoom container differs from the `viewportWidth`
@@ -15,7 +15,7 @@ export function getNormalizedZoomFromMouseMoveDelta({
   // `true` if a mouse move in the positive direction zooms you in, `false` otherwise
   isPositive,
 }) {
-  const { viewportWidth } = timelineConfig;
+  const { viewportWidth } = timelineConstants;
 
   const widthToUse =
     typeof zoomContainerWidth === 'number' ? zoomContainerWidth : viewportWidth;
@@ -44,20 +44,20 @@ export function getNormalizedZoomFromMouseMoveDelta({
 }
 
 export function getZoomBarDimensions({
-  timelineConfig,
+  timelineConstants,
   normalizedZoom,
   focusedFractionalFrame,
   minZoomBarWidth = 40,
   // Optional. Pass this when the max width of the zoom bar differs from the timeline's `viewportWidth`
   zoomContainerWidth,
 } = {}) {
-  const { viewportWidth } = timelineConfig;
+  const { viewportWidth } = timelineConstants;
 
   const widthToUse =
     typeof zoomContainerWidth === 'number' ? zoomContainerWidth : viewportWidth;
 
   const viewportOffsetMeasure = getViewportOffsetMeasure({
-    timelineConfig,
+    timelineConstants,
     normalizedZoom,
     focusedFractionalFrame,
   });

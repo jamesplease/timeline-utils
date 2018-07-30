@@ -86,7 +86,7 @@ have a non-zero bin size.
 Timeline Utils is a collection of functions that can be useful for working with visualizations. Many of the functions
 accept one or more of the same arguments. These arguments are described below:
 
-### `timelineConfig`
+### `timelineConstants`
 
 The timeline configuration are data points about the timeline. They are considered "config" due to the fact that they are
 unrelated to the current position of the viewport. In other words, as the user zooms and pans the

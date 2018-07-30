@@ -4,18 +4,18 @@ import defaultMinFramePixelWidth from './default-min-frame-pixel-width';
 import { getFramePixelWidthAtMinZoom, pixelToFrame } from './conversions';
 import { getTimelineWidth } from './timeline';
 
-export function getMaxZoomMagnitude({ timelineConfig } = {}) {
-  const { minFramePixelWidth = defaultMinFramePixelWidth } = timelineConfig;
+export function getMaxZoomMagnitude({ timelineConstants } = {}) {
+  const { minFramePixelWidth = defaultMinFramePixelWidth } = timelineConstants;
 
   const maxFramePixelWidth = getFramePixelWidthAtMinZoom({
-    timelineConfig,
+    timelineConstants,
   });
 
   return minFramePixelWidth / maxFramePixelWidth;
 }
 
-export function getZoomMagnitude({ timelineConfig, normalizedZoom } = {}) {
-  const maxMagnitude = getMaxZoomMagnitude({ timelineConfig });
+export function getZoomMagnitude({ timelineConstants, normalizedZoom } = {}) {
+  const maxMagnitude = getMaxZoomMagnitude({ timelineConstants });
 
   // Because the zoomMagnitude grows by 1/x, where x is the visible section of the
   // total set of items, we work with the _inverse_ max magnitude.
@@ -40,13 +40,13 @@ export function getZoomMagnitude({ timelineConfig, normalizedZoom } = {}) {
 
 // Heads up! The focusable endpoints are _always_ fractional, because the viewport does not ever
 // necessarily line up with a frame.
-export function getFocusableEndpoints({ timelineConfig, normalizedZoom }) {
-  const { viewportWidth } = timelineConfig;
+export function getFocusableEndpoints({ timelineConstants, normalizedZoom }) {
+  const { viewportWidth } = timelineConstants;
 
   // We get the non-fractional width, so that we are working with the real timeline,
   // including any dead space.
   const timelineWidth = getTimelineWidth({
-    timelineConfig,
+    timelineConstants,
     normalizedZoom,
   });
 
@@ -61,13 +61,13 @@ export function getFocusableEndpoints({ timelineConfig, normalizedZoom }) {
 
   return {
     startFractionalFrame: pixelToFrame({
-      timelineConfig,
+      timelineConstants,
       normalizedZoom,
       pixel: startPixel,
       fractional: true,
     }),
     endFractionalFrame: pixelToFrame({
-      timelineConfig,
+      timelineConstants,
       normalizedZoom,
       pixel: endPixel,
       fractional: true,
@@ -75,12 +75,16 @@ export function getFocusableEndpoints({ timelineConfig, normalizedZoom }) {
   };
 }
 
-export function getPositionFromFrame({ startFrame, endFrame, timelineConfig }) {
+export function getPositionFromFrame({
+  startFrame,
+  endFrame,
+  timelineConstants,
+}) {
   const {
     totalFrameCount,
     viewportWidth,
     minFramePixelWidth = defaultMinFramePixelWidth,
-  } = timelineConfig;
+  } = timelineConstants;
   const frameWidth = endFrame - startFrame;
   const focusedFractionalFrame = endFrame - frameWidth / 2;
 

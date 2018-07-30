@@ -1,4 +1,4 @@
-export interface TimelineConfig {
+export interface timelineConstants {
   viewportWidth: number;
   totalFrameCount: number;
 }
