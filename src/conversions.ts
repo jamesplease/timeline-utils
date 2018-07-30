@@ -1,6 +1,7 @@
 import clamp from './clamp';
 import { getZoomMagnitude } from './scroll-and-zoom';
 import { getTimelineWidth } from './timeline';
+import { getViewportOffset } from './viewport';
 import { TimelineConfig } from './types';
 
 interface GetFramePixelWidthAtMinZoomOptions {
@@ -68,7 +69,11 @@ export function nearestFrameToPixel({ timelineConfig, normalizedZoom, pixel }) {
   const fractionalFrame = pixelToUse / framePixelWidth;
 
   // Rounded, and then clamped (just to be safe)
-  return clamp(0, Math.round(fractionalFrame), timelineConfig.totalFrameCount);
+  return clamp(
+    0,
+    Math.round(fractionalFrame),
+    timelineConfig.totalFrameCount - 1
+  );
 }
 
 export function pixelToFrame({
@@ -94,10 +99,50 @@ export function pixelToFrame({
   const clampedFractionalFrame = clamp(
     0,
     fractionalFrame,
-    timelineConfig.totalFrameCount
+    timelineConfig.totalFrameCount - 1
   );
 
   return fractional
     ? clampedFractionalFrame
     : Math.floor(clampedFractionalFrame);
+}
+
+export function viewportPixelToFrame({
+  timelineConfig,
+  normalizedZoom,
+  pixel,
+  fractional = false,
+  focusedFractionalFrame,
+}) {
+  const viewportOffset = getViewportOffset({
+    timelineConfig,
+    normalizedZoom,
+    focusedFractionalFrame,
+  });
+
+  return pixelToFrame({
+    timelineConfig,
+    normalizedZoom,
+    pixel: pixel + viewportOffset,
+    fractional,
+  });
+}
+
+export function nearestFrameToViewportPixel({
+  timelineConfig,
+  normalizedZoom,
+  pixel,
+  focusedFractionalFrame,
+}) {
+  const viewportOffset = getViewportOffset({
+    timelineConfig,
+    normalizedZoom,
+    focusedFractionalFrame,
+  });
+
+  return nearestFrameToPixel({
+    timelineConfig,
+    normalizedZoom,
+    pixel: pixel + viewportOffset,
+  });
 }

@@ -43,23 +43,57 @@ export function getZoomMagnitude({ timelineConfig, normalizedZoom } = {}) {
 export function getFocusableEndpoints({ timelineConfig, normalizedZoom }) {
   const { viewportWidth } = timelineConfig;
 
-  const timelineWidth = getTimelineWidth({ timelineConfig, normalizedZoom });
+  // We get the non-fractional width, so that we are working with the real timeline,
+  // including any dead space.
+  const timelineWidth = getTimelineWidth({
+    timelineConfig,
+    normalizedZoom,
+  });
 
-  const startPixel = viewportWidth;
-  const endPixel = timelineWidth - viewportWidth;
+  const distanceFromEdge = viewportWidth / 2;
+
+  const startPixel = Math.floor(distanceFromEdge);
+
+  // We ceil the endPixel because we can scroll _into_ any fractional pixels
+  // to get the end of the timeline.
+  // It's not clear to me that we need to floor the start at the moment.
+  const endPixel = Math.ceil(timelineWidth - distanceFromEdge);
 
   return {
     startFractionalFrame: pixelToFrame({
       timelineConfig,
       normalizedZoom,
-      frame: startPixel,
+      pixel: startPixel,
       fractional: true,
     }),
     endFractionalFrame: pixelToFrame({
       timelineConfig,
       normalizedZoom,
-      frame: endPixel,
+      pixel: endPixel,
       fractional: true,
     }),
+  };
+}
+
+export function getPositionFromFrame({ startFrame, endFrame, timelineConfig }) {
+  const {
+    totalFrameCount,
+    viewportWidth,
+    minFramePixelWidth = defaultMinFramePixelWidth,
+  } = timelineConfig;
+  const frameWidth = endFrame - startFrame;
+  const focusedFractionalFrame = endFrame - frameWidth / 2;
+
+  const maxZoomFrameWidth = viewportWidth / minFramePixelWidth;
+
+  const normalizedZoom = linearScale({
+    domain: [totalFrameCount, maxZoomFrameWidth],
+    range: [0, 1],
+    value: [frameWidth],
+  });
+
+  return {
+    normalizedZoom,
+    focusedFractionalFrame,
   };
 }

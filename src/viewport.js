@@ -18,8 +18,15 @@ export function getMaxViewportOffset({ timelineConfig, normalizedZoom } = {}) {
   return fullTimelineWidth - viewportWidth;
 }
 
-export function clampViewportOffset({ timelineConfig, viewportOffset } = {}) {
-  const maxViewportOffset = getMaxViewportOffset({ timelineConfig });
+export function clampViewportOffset({
+  timelineConfig,
+  normalizedZoom,
+  viewportOffset,
+} = {}) {
+  const maxViewportOffset = getMaxViewportOffset({
+    timelineConfig,
+    normalizedZoom,
+  });
 
   return clamp(0, viewportOffset, maxViewportOffset);
 }
@@ -37,22 +44,25 @@ export function getViewportOffset({
     frame: focusedFractionalFrame,
     // We perform the rounding here. That way, the focused frame is as close as possible
     // to the nearest pixel.
-    fractional: false,
+    fractional: true,
   });
 
   // This ensures that the _offset_ of the pixel is constant. The intention here is to
   // prevent "wiggles" as the user zooms in. So long as the distance between the focused
   // pixel and the left viewport edge remain constant, there should not be wiggles.
-  const halfViewportWidth = Math.round(viewportWidth / 2);
+  const halfViewportWidth = viewportWidth / 2;
 
   // Both of these values are integers, so this should always return a whole number
-  const possibleViewportOffset = framePixelOffset - halfViewportWidth;
+  const possibleViewportOffset = Math.round(
+    framePixelOffset - halfViewportWidth
+  );
 
   // Lastly, we clamp our offset so that it matches what is physically possible in the
   // browser. This helps to ensure that any local state that mirrors the viewport does not disagree with
   // what's in the DOM.
   return clampViewportOffset({
     timelineConfig,
+    normalizedZoom,
     viewportOffset: possibleViewportOffset,
   });
 }
@@ -61,11 +71,16 @@ export function getViewportOffset({
 export function getViewportFrameEndpoints({
   timelineConfig,
   normalizedZoom,
+  focusedFractionalFrame,
   fractional,
 }) {
   const { viewportWidth } = timelineConfig;
 
-  const viewportOffset = getViewportOffset({ timelineConfig, normalizedZoom });
+  const viewportOffset = getViewportOffset({
+    timelineConfig,
+    normalizedZoom,
+    focusedFractionalFrame,
+  });
 
   const startPixel = viewportOffset;
   // We can be certain at this point that, with proper use of this lib, this never jumps over the boundary
@@ -73,12 +88,14 @@ export function getViewportFrameEndpoints({
 
   const startFrame = pixelToFrame({
     timelineConfig,
+    normalizedZoom,
     pixel: startPixel,
     fractional,
   });
 
   const endFrame = pixelToFrame({
     timelineConfig,
+    normalizedZoom,
     pixel: endPixel,
     fractional,
   });
@@ -95,15 +112,13 @@ export function getViewportFrameWidth({
   normalizedZoom,
   fractional,
 }) {
-  const { startFrame, endFrame } = getViewportFrameEndpoints({
+  const fractionalSize = pixelToFrame({
     timelineConfig,
     normalizedZoom,
-    fractional,
+    pixel: timelineConfig.viewportWidth,
   });
 
-  const diff = endFrame - startFrame;
-
-  return fractional ? diff : Math.ceil(diff);
+  return fractional ? fractionalSize : Math.ceil(fractional);
 }
 
 export function getViewportOffsetMeasure({
@@ -117,7 +132,10 @@ export function getViewportOffsetMeasure({
     focusedFractionalFrame,
   });
 
-  const maxViewportOffset = getMaxViewportOffset({ timelineConfig });
+  const maxViewportOffset = getMaxViewportOffset({
+    timelineConfig,
+    normalizedZoom,
+  });
 
   return linearScale({
     domain: [0, maxViewportOffset],
