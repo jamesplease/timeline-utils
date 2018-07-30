@@ -1,4 +1,5 @@
 import clamp from '../../src/clamp';
+// const clamp = require('../../src/clamp');
 
 const tests = [
   // These arrays are in the order of:

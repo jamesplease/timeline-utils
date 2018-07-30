@@ -56,7 +56,9 @@ typings/
 
 # dotenv environment variables file
 .env
+.rpt2_cache
+idea
 
 dist
 es 
-lib 
+lib

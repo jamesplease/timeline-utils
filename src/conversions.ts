@@ -1,9 +1,16 @@
 import clamp from './clamp';
 import { getZoomMagnitude } from './scroll-and-zoom';
 import { getTimelineWidth } from './timeline';
+import { TimelineConfig } from './types';
+
+interface GetFramePixelWidthAtMinZoomOptions {
+  timelineConfig?: TimelineConfig;
+}
 
 // The size of a frame, in pixels, when normalizedZoom is 0
-export function getFramePixelWidthAtMinZoom({ timelineConfig } = {}) {
+export function getFramePixelWidthAtMinZoom({
+  timelineConfig,
+}: GetFramePixelWidthAtMinZoomOptions = {}): number {
   const { viewportWidth, totalFrameCount } = timelineConfig;
 
   return viewportWidth / totalFrameCount;
