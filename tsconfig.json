@@ -3,7 +3,7 @@
     "allowJs": false,
     // "allowSyntheticDefaultImports": true,
     // "baseUrl": ".",
-    // "declaration": true,
+    "declaration": true,
     // "esModuleInterop": true,
     // "lib": ["es2017", "es2016", "dom"],
     // "module": "ES2015",
