@@ -1,5 +1,8 @@
 module.exports = {
+  collectCoverage: true,
+  collectCoverageFrom: ['src/**/*.ts', '!**/node_modules/**'],
   moduleFileExtensions: ['ts', 'tsx', 'js'],
+  coverageDirectory: 'coverage',
   transform: {
     '^.+\\.(ts|tsx)$': 'ts-jest',
   },
