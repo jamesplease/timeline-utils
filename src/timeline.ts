@@ -1,4 +1,11 @@
 import { getZoomMagnitude } from './scroll-and-zoom';
+import { TimelineConstants } from './types';
+
+export interface GetTimelineWidthOptions {
+  timelineConstants: TimelineConstants;
+  normalizedZoom: number;
+  fractional?: boolean;
+}
 
 // This returns the width of the timeline, in pixels. As you zoom in, the width
 // increases.
@@ -6,7 +13,7 @@ export function getTimelineWidth({
   timelineConstants,
   normalizedZoom,
   fractional = false,
-} = {}) {
+}: GetTimelineWidthOptions): number {
   const { viewportWidth } = timelineConstants;
   const zoomMagnitude = getZoomMagnitude({ timelineConstants, normalizedZoom });
 
@@ -29,13 +36,18 @@ export function getTimelineWidth({
 
 // }
 
-// // This value will alway satisfy the inequality:  0 <= val < 1.
-// // The reason for this is that the timeline will add at most 1 extra pixel to display all of the
-// // frames in the video.
+export interface GetTimelineDeadSpaceInPixelsOptions {
+  timelineConstants: TimelineConstants;
+  normalizedZoom: number;
+}
+
+// This value will alway satisfy the inequality:  0 <= val < 1.
+// The reason for this is that the timeline will add at most 1 extra pixel to display all of the
+// frames in the video.
 export function getTimelineDeadSpaceInPixels({
   timelineConstants,
   normalizedZoom,
-}) {
+}: GetTimelineDeadSpaceInPixelsOptions): number {
   const fractionalTimelineWidth = getTimelineWidth({
     timelineConstants,
     normalizedZoom,

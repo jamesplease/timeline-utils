@@ -3,8 +3,20 @@ import linearScale from './linear-scale';
 import defaultMinFramePixelWidth from './default-min-frame-pixel-width';
 import { getFramePixelWidthAtMinZoom, pixelToFrame } from './conversions';
 import { getTimelineWidth } from './timeline';
+import {
+  TimelineConstants,
+  ViewportFrameEndpoints,
+  TimelinePosition,
+  FrameEndpoints,
+} from './types';
 
-export function getMaxZoomMagnitude({ timelineConstants } = {}) {
+export interface GetMaxZoomMagnitudeOptions {
+  timelineConstants: TimelineConstants;
+}
+
+export function getMaxZoomMagnitude({
+  timelineConstants,
+}: GetMaxZoomMagnitudeOptions): number {
   const { minFramePixelWidth = defaultMinFramePixelWidth } = timelineConstants;
 
   const maxFramePixelWidth = getFramePixelWidthAtMinZoom({
@@ -14,7 +26,15 @@ export function getMaxZoomMagnitude({ timelineConstants } = {}) {
   return minFramePixelWidth / maxFramePixelWidth;
 }
 
-export function getZoomMagnitude({ timelineConstants, normalizedZoom } = {}) {
+export interface GetZoomMagnitudeOptions {
+  timelineConstants: TimelineConstants;
+  normalizedZoom: number;
+}
+
+export function getZoomMagnitude({
+  timelineConstants,
+  normalizedZoom,
+}: GetZoomMagnitudeOptions): number {
   const maxMagnitude = getMaxZoomMagnitude({ timelineConstants });
 
   // Because the zoomMagnitude grows by 1/x, where x is the visible section of the
@@ -38,9 +58,17 @@ export function getZoomMagnitude({ timelineConstants, normalizedZoom } = {}) {
   return clamp(1, zoomMagnitude, maxMagnitude);
 }
 
+export interface GetFocusableEndpointsOptions {
+  timelineConstants: TimelineConstants;
+  normalizedZoom: number;
+}
+
 // Heads up! The focusable endpoints are _always_ fractional, because the viewport does not ever
 // necessarily line up with a frame.
-export function getFocusableEndpoints({ timelineConstants, normalizedZoom }) {
+export function getFocusableEndpoints({
+  timelineConstants,
+  normalizedZoom,
+}: GetFocusableEndpointsOptions): FrameEndpoints {
   const { viewportWidth } = timelineConstants;
 
   // We get the non-fractional width, so that we are working with the real timeline,
@@ -75,11 +103,15 @@ export function getFocusableEndpoints({ timelineConstants, normalizedZoom }) {
   };
 }
 
+export interface GetPositionFromFrameOptions extends ViewportFrameEndpoints {
+  timelineConstants: TimelineConstants;
+}
+
 export function getPositionFromFrame({
   startFrame,
   endFrame,
   timelineConstants,
-}) {
+}: GetPositionFromFrameOptions): TimelinePosition {
   const {
     totalFrameCount,
     viewportWidth,
@@ -93,7 +125,7 @@ export function getPositionFromFrame({
   const normalizedZoom = linearScale({
     domain: [totalFrameCount, maxZoomFrameWidth],
     range: [0, 1],
-    value: [frameWidth],
+    value: frameWidth,
   });
 
   return {

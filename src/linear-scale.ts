@@ -1,6 +1,6 @@
-interface LinearScaleOptions {
-  domain: number[];
-  range: number[];
+export interface LinearScaleOptions {
+  domain: [number, number];
+  range: [number, number];
   value: number;
 }
 

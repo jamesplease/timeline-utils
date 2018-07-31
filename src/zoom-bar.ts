@@ -1,6 +1,16 @@
 import clamp from './clamp';
 import linearScale from './linear-scale';
 import { getViewportOffsetMeasure } from './viewport';
+import { TimelineConstants, ZoomBarDimensions } from './types';
+
+export interface GetNormalizedZoomFromMouseMoveDeltaOptions {
+  timelineConstants: TimelineConstants;
+  normalizedZoom: number;
+  mouseMoveDelta: number;
+  zoomContainerWidth?: number;
+  totalZoomDistance?: number;
+  isPositive?: boolean;
+}
 
 // This allows you to change the zoom measure based on the
 export function getNormalizedZoomFromMouseMoveDelta({
@@ -14,7 +24,7 @@ export function getNormalizedZoomFromMouseMoveDelta({
   totalZoomDistance,
   // `true` if a mouse move in the positive direction zooms you in, `false` otherwise
   isPositive,
-}) {
+}: GetNormalizedZoomFromMouseMoveDeltaOptions): number {
   const { viewportWidth } = timelineConstants;
 
   const widthToUse =
@@ -43,6 +53,14 @@ export function getNormalizedZoomFromMouseMoveDelta({
   return clamp(0, possibleNormalizedZoom, 1);
 }
 
+export interface GetZoomBarDimensionsOptions {
+  timelineConstants: TimelineConstants;
+  normalizedZoom: number;
+  focusedFractionalFrame: number;
+  minZoomBarWidth?: number;
+  zoomContainerWidth?: number;
+}
+
 export function getZoomBarDimensions({
   timelineConstants,
   normalizedZoom,
@@ -50,7 +68,7 @@ export function getZoomBarDimensions({
   minZoomBarWidth = 40,
   // Optional. Pass this when the max width of the zoom bar differs from the timeline's `viewportWidth`
   zoomContainerWidth,
-} = {}) {
+}: GetZoomBarDimensionsOptions): ZoomBarDimensions {
   const { viewportWidth } = timelineConstants;
 
   const widthToUse =

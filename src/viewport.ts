@@ -2,16 +2,22 @@ import clamp from './clamp';
 import linearScale from './linear-scale';
 import { getTimelineWidth } from './timeline';
 import { frameToPixel, pixelToFrame } from './conversions';
+import { TimelineConstants, ViewportFrameEndpoints } from './types';
 
 // These utilities are all about the viewport. The viewport is the
 // visible section of the timeline. The `viewportWidth` in
 // `timelineConstants` represents the physical size of the viewport.
 
+export interface GetMaxViewportOffsetOptions {
+  timelineConstants: TimelineConstants;
+  normalizedZoom: number;
+}
+
 // This is the furthest to the left that the viewport can scroll.
 export function getMaxViewportOffset({
   timelineConstants,
   normalizedZoom,
-} = {}) {
+}: GetMaxViewportOffsetOptions): number {
   const { viewportWidth } = timelineConstants;
   const fullTimelineWidth = getTimelineWidth({
     timelineConstants,
@@ -21,11 +27,17 @@ export function getMaxViewportOffset({
   return fullTimelineWidth - viewportWidth;
 }
 
+export interface ClampViewportOffsetOptions {
+  timelineConstants: TimelineConstants;
+  normalizedZoom: number;
+  viewportOffset: number;
+}
+
 export function clampViewportOffset({
   timelineConstants,
   normalizedZoom,
   viewportOffset,
-} = {}) {
+}: ClampViewportOffsetOptions): number {
   const maxViewportOffset = getMaxViewportOffset({
     timelineConstants,
     normalizedZoom,
@@ -34,11 +46,17 @@ export function clampViewportOffset({
   return clamp(0, viewportOffset, maxViewportOffset);
 }
 
+export interface GetViewportOffsetOptions {
+  timelineConstants: TimelineConstants;
+  normalizedZoom: number;
+  focusedFractionalFrame: number;
+}
+
 export function getViewportOffset({
   timelineConstants,
   normalizedZoom,
   focusedFractionalFrame,
-} = {}) {
+}: GetViewportOffsetOptions): number {
   const { viewportWidth } = timelineConstants;
 
   const framePixelOffset = frameToPixel({
@@ -70,13 +88,20 @@ export function getViewportOffset({
   });
 }
 
+export interface GetViewportFrameEndpointsOptions {
+  timelineConstants: TimelineConstants;
+  normalizedZoom: number;
+  focusedFractionalFrame: number;
+  fractional?: boolean;
+}
+
 // The frame endpoints refer to which frame bin the first and last pixel of the viewport fall into.
 export function getViewportFrameEndpoints({
   timelineConstants,
   normalizedZoom,
   focusedFractionalFrame,
   fractional,
-}) {
+}: GetViewportFrameEndpointsOptions): ViewportFrameEndpoints {
   const { viewportWidth } = timelineConstants;
 
   const viewportOffset = getViewportOffset({
@@ -109,26 +134,38 @@ export function getViewportFrameEndpoints({
   };
 }
 
+export interface GetViewportFrameWidth {
+  timelineConstants: TimelineConstants;
+  normalizedZoom: number;
+  fractional?: boolean;
+}
+
 // Note: non-fractional values round up.
 export function getViewportFrameWidth({
   timelineConstants,
   normalizedZoom,
   fractional,
-}) {
+}: GetViewportFrameWidth): number {
   const fractionalSize = pixelToFrame({
     timelineConstants,
     normalizedZoom,
     pixel: timelineConstants.viewportWidth,
   });
 
-  return fractional ? fractionalSize : Math.ceil(fractional);
+  return fractional ? fractionalSize : Math.ceil(fractionalSize);
+}
+
+export interface GetViewportOffsetMeasureOptions {
+  timelineConstants: TimelineConstants;
+  focusedFractionalFrame: number;
+  normalizedZoom: number;
 }
 
 export function getViewportOffsetMeasure({
   timelineConstants,
   focusedFractionalFrame,
   normalizedZoom,
-} = {}) {
+}: GetViewportOffsetMeasureOptions): number {
   const viewportOffset = getViewportOffset({
     timelineConstants,
     normalizedZoom,

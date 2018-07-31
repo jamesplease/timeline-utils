@@ -2,22 +2,30 @@ import clamp from './clamp';
 import { getZoomMagnitude } from './scroll-and-zoom';
 import { getTimelineWidth } from './timeline';
 import { getViewportOffset } from './viewport';
-import { timelineConstants } from './types';
+import { TimelineConstants } from './types';
 
-interface GetFramePixelWidthAtMinZoomOptions {
-  timelineConstants?: timelineConstants;
+export interface GetFramePixelWidthAtMinZoomOptions {
+  timelineConstants: TimelineConstants;
 }
 
 // The size of a frame, in pixels, when normalizedZoom is 0
 export function getFramePixelWidthAtMinZoom({
   timelineConstants,
-}: GetFramePixelWidthAtMinZoomOptions = {}): number {
+}: GetFramePixelWidthAtMinZoomOptions): number {
   const { viewportWidth, totalFrameCount } = timelineConstants;
 
   return viewportWidth / totalFrameCount;
 }
 
-export function getFramePixelWidth({ timelineConstants, normalizedZoom } = {}) {
+export interface GetFramePixelWidthOptions {
+  timelineConstants: TimelineConstants;
+  normalizedZoom: number;
+}
+
+export function getFramePixelWidth({
+  timelineConstants,
+  normalizedZoom,
+}: GetFramePixelWidthOptions): number {
   const zoomMagnitude = getZoomMagnitude({
     timelineConstants,
     normalizedZoom,
@@ -30,12 +38,19 @@ export function getFramePixelWidth({ timelineConstants, normalizedZoom } = {}) {
   return zoomMagnitude * minFramePixelWidth;
 }
 
+export interface FrameToPixelOptions {
+  timelineConstants: TimelineConstants;
+  normalizedZoom: number;
+  frame: number;
+  fractional?: boolean;
+}
+
 export function frameToPixel({
   timelineConstants,
   normalizedZoom,
   frame,
   fractional = false,
-}) {
+}: FrameToPixelOptions): number {
   const framePixelWidth = getFramePixelWidth({
     timelineConstants,
     normalizedZoom,
@@ -50,13 +65,19 @@ export function frameToPixel({
   return fractional ? fractionalPixel : Math.round(fractionalPixel);
 }
 
+export interface GetNearestFrameToPixelOptions {
+  timelineConstants: TimelineConstants;
+  normalizedZoom: number;
+  pixel: number;
+}
+
 // Returns the _nearest_ frame to the pixel. Always returns an entire
 // pixel value. This can be useful for snapping interfaces.
 export function nearestFrameToPixel({
   timelineConstants,
   normalizedZoom,
   pixel,
-}) {
+}: GetNearestFrameToPixelOptions): number {
   const framePixelWidth = getFramePixelWidth({
     timelineConstants,
     normalizedZoom,
@@ -80,12 +101,19 @@ export function nearestFrameToPixel({
   );
 }
 
+export interface PixelToFrameOptions {
+  timelineConstants: TimelineConstants;
+  normalizedZoom: number;
+  pixel: number;
+  fractional?: boolean;
+}
+
 export function pixelToFrame({
   timelineConstants,
   normalizedZoom,
   pixel,
   fractional = false,
-}) {
+}: PixelToFrameOptions): number {
   const framePixelWidth = getFramePixelWidth({
     timelineConstants,
     normalizedZoom,
@@ -111,13 +139,21 @@ export function pixelToFrame({
     : Math.floor(clampedFractionalFrame);
 }
 
+export interface ViewportPixelToFrameOptions {
+  timelineConstants: TimelineConstants;
+  normalizedZoom: number;
+  pixel: number;
+  fractional?: boolean;
+  focusedFractionalFrame: number;
+}
+
 export function viewportPixelToFrame({
   timelineConstants,
   normalizedZoom,
   pixel,
-  fractional = false,
   focusedFractionalFrame,
-}) {
+  fractional = false,
+}: ViewportPixelToFrameOptions): number {
   const viewportOffset = getViewportOffset({
     timelineConstants,
     normalizedZoom,
@@ -132,12 +168,19 @@ export function viewportPixelToFrame({
   });
 }
 
+export interface NearestFrameToViewportPixelOptions {
+  timelineConstants: TimelineConstants;
+  normalizedZoom: number;
+  pixel: number;
+  focusedFractionalFrame: number;
+}
+
 export function nearestFrameToViewportPixel({
   timelineConstants,
   normalizedZoom,
   pixel,
   focusedFractionalFrame,
-}) {
+}: NearestFrameToViewportPixelOptions): number {
   const viewportOffset = getViewportOffset({
     timelineConstants,
     normalizedZoom,

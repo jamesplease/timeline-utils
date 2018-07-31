@@ -88,9 +88,8 @@ accept one or more of the same arguments. These arguments are described below:
 
 ### `timelineConstants`
 
-The timeline configuration are data points about the timeline. They are considered "config" due to the fact that they are
-unrelated to the current position of the viewport. In other words, as the user zooms and pans the
-timeline, these values remain constant.
+The timeline constants are pieces of information about the timeline. They are considered "constant" due to the fact that they are
+unrelated to the user's position within the viewport. As the user zooms and pans the timeline, these values do not change.
 
 | Key                | Default Value | Description                                                   |
 | ------------------ | ------------- | ------------------------------------------------------------- |
