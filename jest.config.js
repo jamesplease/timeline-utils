@@ -1,6 +1,16 @@
 module.exports = {
   collectCoverage: true,
-  collectCoverageFrom: ['src/**/*.js', '!**/node_modules/**'],
+  collectCoverageFrom: ['src/**/*.ts', '!**/node_modules/**'],
+  moduleFileExtensions: ['ts', 'tsx', 'js'],
   coverageDirectory: 'coverage',
-  setupTestFrameworkScriptFile: './test/setup.js',
+  transform: {
+    '^.+\\.(ts|tsx)$': 'ts-jest',
+  },
+  globals: {
+    'ts-jest': {
+      tsConfigFile: 'tsconfig.json',
+    },
+  },
+  testMatch: ['**/*.test.+(ts|tsx|js)'],
+  testURL: 'http://localhost',
 };

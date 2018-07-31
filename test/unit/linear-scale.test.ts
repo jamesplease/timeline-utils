@@ -1,6 +1,10 @@
-import linearScale from '../../src/linear-scale';
+import linearScale, { LinearScaleOptions } from '../../src/linear-scale';
 
-const tests = [
+interface TestObject extends LinearScaleOptions {
+  result: number;
+}
+
+const tests: TestObject[] = [
   {
     domain: [0, 1],
     range: [0, 1],

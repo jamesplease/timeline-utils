@@ -6,14 +6,14 @@ describe('getTimelineDeadSpaceInPixels', () => {
   });
 
   it('returns the expected value when the frames fit evenly into the viewport', () => {
-    const timelineConfig = {
+    const timelineConstants = {
       viewportWidth: 1000,
       totalFrameCount: 500,
       minFramePixelWidth: 20,
     };
 
     const result = getTimelineDeadSpaceInPixels({
-      timelineConfig,
+      timelineConstants,
       normalizedZoom: 0,
     });
 
@@ -21,14 +21,14 @@ describe('getTimelineDeadSpaceInPixels', () => {
   });
 
   it('returns the expected value when the frames do not fit evenly into the viewport', () => {
-    const timelineConfig = {
+    const timelineConstants = {
       viewportWidth: 1000,
       totalFrameCount: 500,
       minFramePixelWidth: 20,
     };
 
     const result = getTimelineDeadSpaceInPixels({
-      timelineConfig,
+      timelineConstants,
       normalizedZoom: 0.5,
     });
 
