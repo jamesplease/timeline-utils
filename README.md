@@ -1,5 +1,9 @@
 # Timeline Utils
 
+[![Travis build status](http://img.shields.io/travis/jamesplease/timeline-utils.svg?style=flat)](https://travis-ci.org/jamesplease/timeline-utils)
+[![npm version](https://img.shields.io/npm/v/timeline-utils.svg)](https://www.npmjs.com/package/timeline-utils)
+[![Test Coverage](https://coveralls.io/repos/github/jamesplease/timeline-utils/badge.svg?branch=master)](https://coveralls.io/github/jamesplease/timeline-utils?branch=master)
+
 Utilities for working with timelines.
 
 > Heads up! Timeline Utils has a best friend, [Framerate Utils](https://github.com/Netflix-Skunkworks/framerate-utils).
