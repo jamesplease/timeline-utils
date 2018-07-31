@@ -19,8 +19,8 @@ Utilities for working with timelines.
   - [Timeline](./docs/api-reference/timeline.md)
   - [Scroll and Zoom](./docs/api-reference/scroll-and-zoom.md)
   - [Zoom Bar](./docs/api-reference/zoom-bar.md)
-  - [clamp()](./docs/api-reference/clamp.md)
-  - [linear-scale()](./docs/api-reference/linear-scale.md)
+  - [`clamp()`](./docs/api-reference/clamp.md)
+  - [`linear-scale()`](./docs/api-reference/linear-scale.md)
 
 ## API Arguments
 

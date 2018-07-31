@@ -1,8 +1,8 @@
-# `linearScale({ domain, range, value })`
+### `linearScale({ domain, range, value })`
 
 Linearly maps a `value` from `domain` onto `range`.
 
-### Example usage
+#### Example usage
 
 ```js
 import { linearScale } from 'timeline-utils';
@@ -15,7 +15,7 @@ linearScale({
 // => 75
 ```
 
-### Tips
+#### Tips
 
 Linear scales are useful when working with normalized values. For instance, in Timeline Utils you will
 frequently work with a _normalized zoom_ value, which goes from 0 to 1. Frequently, it is convenient

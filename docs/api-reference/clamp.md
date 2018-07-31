@@ -1,8 +1,8 @@
-# `clamp( min, number, max )`
+### `clamp( min, number, max )`
 
 Ensures that `number` is between `min` and `max`.
 
-### Example usage
+#### Example usage
 
 ```js
 import { clamp } from 'timeline-utils';
@@ -14,7 +14,7 @@ clamp(0, -5, 10);
 // => 0
 ```
 
-### Tips
+#### Tips
 
 Clamping is typically useful for ensuring that rounding errors don't push things over the edge. For instance,
 

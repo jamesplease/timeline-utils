@@ -7,5 +7,5 @@ The API reference describes the arguments and return values of the functions exp
 - [Timeline](./timeline.md)
 - [Scroll and Zoom](./scroll-and-zoom.md)
 - [Zoom Bar](./zoom-bar.md)
-- [clamp()](./clamp.md)
-- [linear-scale()](./linear-scale.md)
+- [`clamp()`](./clamp.md)
+- [`linear-scale()`](./linear-scale.md)
