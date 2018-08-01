@@ -32,10 +32,10 @@ yarn add timeline-utils
 
 ## Table of Contents
 
-- [**Guides**](./docs/guides/index.md)
+- [**Guides**](./docs/guides/README.md)
   - [Concepts](./docs/guides/concepts.md)
   - [API Arguments](./docs/guides/api-arguments.md)
-- [**API Reference**](./docs/api-reference/index.md)
+- [**API Reference**](./docs/api-reference/README.md)
   - [Conversions](./docs/api-reference/conversions.md)
   - [Viewport](./docs/api-reference/viewport.md)
   - [Timeline](./docs/api-reference/timeline.md)
