@@ -6,9 +6,6 @@
 
 Utilities for working with timelines.
 
-> Heads up! Timeline Utils has a best friend, [Framerate Utils](https://github.com/Netflix-Skunkworks/framerate-utils).
-> If you are working with videos in JavaScript, you will also want to check that library out as well.
-
 ## Motivation
 
 A timeline is a visual representation of information related to video. For instance, you may want to render an element that represents
