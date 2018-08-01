@@ -43,3 +43,8 @@ yarn add timeline-utils
   - [Zoom Bar](./docs/api-reference/zoom-bar.md)
   - [`clamp()`](./docs/api-reference/clamp.md)
   - [`linear-scale()`](./docs/api-reference/linear-scale.md)
+
+## Contributing
+
+Are you interested in helping out with this project? That's awesome – thank you! Head on over to
+[the contributing guide](./CONTRIBUTING.md) to get started.
