@@ -9,6 +9,27 @@ Utilities for working with timelines.
 > Heads up! Timeline Utils has a best friend, [Framerate Utils](https://github.com/Netflix-Skunkworks/framerate-utils).
 > If you are working with videos in JavaScript, you will also want to check that library out as well.
 
+## Motivation
+
+A timeline is a visual representation of information related to video. For instance, you may want to render an element that represents
+how long a video is. And maybe you want to display markers on that element to represent a user's selection within that video.
+
+This interface would be a _timeline_. The math behind timelines can be complicated, and this library exists to help you with that math.
+
+## Installation
+
+Install using [npm](https://www.npmjs.com):
+
+```
+npm install timeline-utils
+```
+
+or [yarn](https://yarnpkg.com/):
+
+```
+yarn add timeline-utils
+```
+
 ## Table of Contents
 
 - [**Guides**](./docs/guides/index.md)
