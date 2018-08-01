@@ -1,6 +1,6 @@
 import clamp from './clamp';
 import linearScale from './linear-scale';
-import { getViewportOffsetMeasure } from './viewport';
+import { getNormalizedViewportOffset } from './viewport';
 import { TimelineConstants, ZoomBarDimensions } from './types';
 
 export interface GetNormalizedZoomFromMouseMoveDeltaOptions {
@@ -74,7 +74,7 @@ export function getZoomBarDimensions({
   const widthToUse =
     typeof zoomContainerWidth === 'number' ? zoomContainerWidth : viewportWidth;
 
-  const viewportOffsetMeasure = getViewportOffsetMeasure({
+  const viewportOffsetMeasure = getNormalizedViewportOffset({
     timelineConstants,
     normalizedZoom,
     focusedFractionalFrame,

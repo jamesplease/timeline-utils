@@ -155,17 +155,17 @@ export function getViewportFrameWidth({
   return fractional ? fractionalSize : Math.ceil(fractionalSize);
 }
 
-export interface GetViewportOffsetMeasureOptions {
+export interface GetNormalizedViewportOffsetOptions {
   timelineConstants: TimelineConstants;
   focusedFractionalFrame: number;
   normalizedZoom: number;
 }
 
-export function getViewportOffsetMeasure({
+export function getNormalizedViewportOffset({
   timelineConstants,
   focusedFractionalFrame,
   normalizedZoom,
-}: GetViewportOffsetMeasureOptions): number {
+}: GetNormalizedViewportOffsetOptions): number {
   const viewportOffset = getViewportOffset({
     timelineConstants,
     normalizedZoom,
