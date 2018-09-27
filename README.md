@@ -6,6 +6,8 @@
 
 Utilities for working with timelines.
 
+> Heads up! This project is a work in progress.
+
 ## Motivation
 
 A timeline is a visual representation of information related to video. For instance, you may want to render an element that represents
@@ -15,17 +17,7 @@ This interface would be a _timeline_. The math behind timelines can be complicat
 
 ## Installation
 
-Install using [npm](https://www.npmjs.com):
-
-```
-npm install timeline-utils
-```
-
-or [yarn](https://yarnpkg.com/):
-
-```
-yarn add timeline-utils
-```
+This project is a work-in-progress, and isn't currently published on npm.
 
 ## Table of Contents
 
