@@ -9,15 +9,17 @@
     "test:unit": "jest",
     "lint": "eslint src test",
     "prettier": "prettier --write \"./{src}/**/*.js\"",
-    "clean": "rimraf dist es tmp lib",
+    "clean": "rimraf dist es tmp lib .rpt2_cache",
     "prepublishOnly": "npm run build",
     "prebuild": "npm run clean",
-    "build": "npm run build:umd",
-    "build:commonjs": "cross-env BABEL_ENV=commonjs babel src --out-dir lib",
-    "build:es": "cross-env BABEL_ENV=es babel src --out-dir es",
-    "build:umd": "cross-env NODE_ENV=development BABEL_ENV=build rollup -c -i src/index.ts -o dist/timeline-utils.js",
-    "build:umd:min": "cross-env NODE_ENV=production BABEL_ENV=buildProd rollup -c -i src/index.ts -o dist/timeline-utils.min.js"
+    "build": "rollup -c"
   },
+  "files": [
+    "dist",
+    "lib",
+    "es",
+    "src"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jamesplease/timeline-utils.git"
@@ -29,14 +31,11 @@
   },
   "homepage": "https://github.com/jamesplease/timeline-utils#readme",
   "devDependencies": {
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.0",
     "@types/jest": "^23.3.1",
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.1",
     "babel-jest": "^22.1.0",
-    "babel-plugin-external-helpers": "^6.22.0",
-    "babel-preset-env": "^1.6.1",
-    "babel-preset-stage-3": "^6.24.1",
     "coveralls": "^3.0.0",
     "cross-env": "^5.1.4",
     "eslint": "^4.19.1",
@@ -44,14 +43,15 @@
     "prettier": "^1.12.1",
     "reselect": "^3.0.1",
     "rimraf": "^2.6.2",
-    "rollup": "^0.58.2",
-    "rollup-plugin-babel": "^3.0.4",
-    "rollup-plugin-commonjs": "^9.1.0",
-    "rollup-plugin-node-resolve": "^3.3.0",
+    "rollup": "^0.66.2",
+    "rollup-plugin-babel": "^4.0.1",
+    "rollup-plugin-node-resolve": "^3.4.0",
     "rollup-plugin-replace": "^2.0.0",
-    "rollup-plugin-typescript2": "^0.16.1",
-    "rollup-plugin-uglify": "^3.0.0",
+    "rollup-plugin-terser": "^3.0.0",
+    "rollup-plugin-typescript": "^1.0.0",
+    "rollup-plugin-typescript2": "^0.18.0",
     "ts-jest": "^23.0.1",
-    "typescript": "^3.0.1"
+    "tslib": "^1.9.3",
+    "typescript": "^3.1.6"
   }
 }
