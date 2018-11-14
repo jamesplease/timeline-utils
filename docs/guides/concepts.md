@@ -23,12 +23,12 @@ to zooming.
 
 Some values only exist as integers (they are [discrete](https://en.wikipedia.org/wiki/Discrete_mathematics)). For instance, frames in a video.
 If a video has 2 frames, then there are only two possible values that an active frame can be: frame 0, or frame 1. It's simply not
-possible to be on, say, frame 1.5, because each frame is a particular image.
+possible to be on, say, frame 1.5, because a frame is a distinct image.
 
-However, when you represent a value like frames _visually_, you typically display them as having a width. This permits
-a place onscreen - some pixel – that can represent a value _between_ 0 and 1.
+However, when you represent a value like frames _visually_ on a timeline, you typically display them as having a width.
+This permits a place onscreen - some pixel – that can represent a value _between_ 0 and 1.
 
-In this way, a visualization of a discrete value can be considered continuous.
+Consequently, visualizations of a discrete value are continuous.
 
 Because it is important to know whether you are working with the discrete version of a value, or the continuous one,
 Timeline Utils provides a name for the continuous versions of things: _fractional values_.
@@ -41,9 +41,8 @@ There are two important kinds of fractional values in Timeline Utils:
 The primary use of fractional values is to ensure accuracy when changing between frames and pixels. For instance, "frame 31"
 is typically located at a fractional pixel, and "pixel 300" is typically pointing to a fractional frame.
 
-Outside of unit conversions, you **should not** use fractional values. If you do, you open your timeline up to off-to-one
-errors. Timeline Utils provides methods that round fractional values for you, and those are what you should use when
-rendering pixels, or seeking the video to a frame.
+Fractional values should **only** be used when performing unit conversions. When it comes time to render a value, we
+encourage you to use the Timeline Utils methods that round the fractional values for you to prevent off-by-one display issues.
 
 ## Dead Space
 
