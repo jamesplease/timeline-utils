@@ -5,7 +5,7 @@
 A **normalized value** is a number between 0 and 1 that maps [linearly](https://en.wikipedia.org/wiki/Linear_function) to some other value. 
 
 Normalized values are best understood with an example. Consider a particular DOM element on a webpage that has a width of 600px. You could define
-a `normalizedWidth` for this node that goes from 0 to 1, where 0 represents "0px" and 1 represents "600px". You can think of a normalized value as a percentege, where 0 represents 0%, and 1 represents 100%.
+a `normalizedWidth` for this node that goes from 0 to 1, where 0 represents "0px" and 1 represents "600px". You can think of a normalized value as a percentage, where 0 represents 0%, and 1 represents 100%.
 
 This idea can be useful if you want to, say, draw a line at the end of the DOM element. You could say: "draw a line at `normalizedWidth: 1`".
 This allows you to draw a line even in situations where you don't know, or don't care to know, the _actual_ width of the element.
