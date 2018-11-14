@@ -6,7 +6,6 @@
     "target": "es5",
     // Search under node_modules for non-relative imports.
     "moduleResolution": "node",
-    // Don't emit; allow Babel to transform files.
     "noEmit": true,
     "noUnusedLocals": true,
     "noImplicitAny": true,

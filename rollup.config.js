@@ -1,5 +1,4 @@
 import nodeResolve from 'rollup-plugin-node-resolve';
-import babel from 'rollup-plugin-babel';
 import replace from 'rollup-plugin-replace';
 import { terser } from 'rollup-plugin-terser';
 import typescript from 'rollup-plugin-typescript2';
@@ -15,7 +14,7 @@ export default [
       ...Object.keys(pkg.dependencies || {}),
       ...Object.keys(pkg.peerDependencies || {}),
     ],
-    plugins: [typescript(), babel()],
+    plugins: [typescript()],
   },
 
   // ES
@@ -26,7 +25,7 @@ export default [
       ...Object.keys(pkg.dependencies || {}),
       ...Object.keys(pkg.peerDependencies || {}),
     ],
-    plugins: [typescript(), babel()],
+    plugins: [typescript()],
   },
 
   // ES for Browsers
@@ -66,9 +65,6 @@ export default [
       nodeResolve({
         jsnext: true,
       }),
-      babel({
-        exclude: 'node_modules/**',
-      }),
       replace({
         'process.env.NODE_ENV': JSON.stringify('development'),
       }),
@@ -88,9 +84,6 @@ export default [
       typescript(),
       nodeResolve({
         jsnext: true,
-      }),
-      babel({
-        exclude: 'node_modules/**',
       }),
       replace({
         'process.env.NODE_ENV': JSON.stringify('production'),
