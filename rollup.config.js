@@ -1,53 +1,108 @@
-// import nodeResolve from 'rollup-plugin-node-resolve';
-import typescript from 'rollup-plugin-typescript2';
-import uglify from 'rollup-plugin-uglify';
-// import commonjs from 'rollup-plugin-commonjs';
+import nodeResolve from 'rollup-plugin-node-resolve';
+import babel from 'rollup-plugin-babel';
 import replace from 'rollup-plugin-replace';
+import { terser } from 'rollup-plugin-terser';
+import typescript from 'rollup-plugin-typescript2';
 
-var env = process.env.NODE_ENV;
+import pkg from './package.json';
 
-let external;
-if (env === 'production') {
-  external = ['prop-types'];
-}
-
-var config = {
-  output: {
-    format: 'umd',
-    name: 'StandardResource',
+export default [
+  // CommonJS
+  {
+    input: 'src/index.ts',
+    output: { file: 'lib/timeline-utils.js', format: 'cjs', indent: false },
+    external: [
+      ...Object.keys(pkg.dependencies || {}),
+      ...Object.keys(pkg.peerDependencies || {}),
+    ],
+    plugins: [typescript(), babel()],
   },
 
-  external,
+  // ES
+  {
+    input: 'src/index.ts',
+    output: { file: 'es/timeline-utils.js', format: 'es', indent: false },
+    external: [
+      ...Object.keys(pkg.dependencies || {}),
+      ...Object.keys(pkg.peerDependencies || {}),
+    ],
+    plugins: [typescript(), babel()],
+  },
 
-  plugins: [
-    typescript(),
-    // nodeResolve({
-    //   jsnext: true,
-    // }),
-    // commonjs({
-    //   include: 'node_modules/**',
+  // ES for Browsers
+  {
+    input: 'src/index.ts',
+    output: { file: 'es/timeline-utils.mjs', format: 'es', indent: false },
+    plugins: [
+      typescript(),
+      nodeResolve({
+        jsnext: true,
+      }),
+      replace({
+        'process.env.NODE_ENV': JSON.stringify('production'),
+      }),
+      terser({
+        compress: {
+          pure_getters: true,
+          unsafe: true,
+          unsafe_comps: true,
+          warnings: false,
+        },
+      }),
+    ],
+  },
 
-    //   // explicitly specify unresolvable named exports
-    //   // (see below for more details)
-    //   // namedExports: { './module.js': ['foo', 'bar' ] },  // Default: undefined
-    // }),
-    replace({
-      'process.env.NODE_ENV': JSON.stringify(env),
-    }),
-  ],
-};
+  // UMD Development
+  {
+    input: 'src/index.ts',
+    output: {
+      file: 'dist/timeline-utils.js',
+      format: 'umd',
+      name: 'TimelineUtils',
+      indent: false,
+    },
+    plugins: [
+      typescript(),
+      nodeResolve({
+        jsnext: true,
+      }),
+      babel({
+        exclude: 'node_modules/**',
+      }),
+      replace({
+        'process.env.NODE_ENV': JSON.stringify('development'),
+      }),
+    ],
+  },
 
-if (env === 'production') {
-  config.plugins.push(
-    uglify({
-      compress: {
-        pure_getters: true,
-        unsafe: true,
-        unsafe_comps: true,
-        warnings: false,
-      },
-    })
-  );
-}
-
-export default config;
+  // UMD Production
+  {
+    input: 'src/index.ts',
+    output: {
+      file: 'dist/timeline-utils.min.js',
+      format: 'umd',
+      name: 'TimelineUtils',
+      indent: false,
+    },
+    plugins: [
+      typescript(),
+      nodeResolve({
+        jsnext: true,
+      }),
+      babel({
+        exclude: 'node_modules/**',
+      }),
+      replace({
+        'process.env.NODE_ENV': JSON.stringify('production'),
+      }),
+      terser({
+        compress: {
+          pure_getters: true,
+          unsafe: true,
+          unsafe_comps: true,
+          warnings: false,
+        },
+      }),
+    ],
+  },
+];
